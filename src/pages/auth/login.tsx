@@ -1,9 +1,7 @@
 import React, { ReactElement, useState } from "react";
 import AuthLayout from "../../components/layouts/AuthLayout";
-import { setError } from "../../redux/api/alert";
 
-import { LockClosedIcon } from "@heroicons/react/solid";
-import { SubmitHandler, UseFormReturn, useForm } from "react-hook-form";
+import { SubmitHandler } from "react-hook-form";
 import Form from "../../components/forms/Form";
 import Input from "../../components/forms/Input";
 import Link from "next/link";
@@ -16,15 +14,11 @@ export interface FormLogin {
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    getValues,
-  } = useForm<FormLogin>();
+
   const onSubmit: SubmitHandler<FormLogin> = (data) => {
     console.log(data);
   };
+
   return (
     <section className="h-screen">
       <div className="container px-6 py-12 h-full">
@@ -305,7 +299,7 @@ const Login = () => {
           </div>
           <div className="md:w-8/12 lg:w-5/12 lg:ml-20">
             <Form<FormLogin> title="Bienvenido" onSubmit={onSubmit}>
-              {({ register }) => (
+              {({ register, formState: { errors } }) => (
                 <>
                   <p className="text-center text-gray-500  mt-2 mb-6">
                     No tienes una cuenta?
@@ -317,16 +311,35 @@ const Login = () => {
                   <Input
                     title="Correo"
                     type="email"
+                    id="email"
                     placeholder="Correo electrónico"
-                    className="form-control mt-2  block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                    {...register("email")}
+                    aria-errormessage={
+                      errors.email ? "Formato no valido" : undefined
+                    }
+                    {...register("email", {
+                      required: true,
+                      pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                      maxLength: 50,
+                      minLength: 5,
+                    })}
                   />
                   <Input
                     title="Contraseña"
                     type="password"
+                    id="password"
                     placeholder="Contraseña"
-                    className="form-control mt-2 block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                    {...register("password")}
+                    aria-errormessage={
+                      errors.password
+                        ? "El formato de contraseña no es valido"
+                        : undefined
+                    }
+                    {...register("password", {
+                      required: true,
+                      maxLength: 50,
+                      minLength: 8,
+                      pattern:
+                        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                    })}
                   />
                   <div className="flex justify-end items-center mb-6">
                     <a
@@ -336,8 +349,7 @@ const Login = () => {
                       ¿Olvidaste tu contraseña?
                     </a>
                   </div>
-
-                  <Submit loading={true}>Ingresar</Submit>
+                  <Submit loading={false}>Ingresar</Submit>
                 </>
               )}
             </Form>

@@ -2,7 +2,7 @@ import { EyeIcon, EyeOffIcon } from "@heroicons/react/solid";
 import React from "react";
 type ExtraProps = {
   showPassword?: boolean;
-  setShowPassword?: React.Dispatch<React.SetStateAction<boolean>>;
+  handleVisibility?: () => void;
   shouldShowButton?: boolean;
 };
 type InputProps = React.DetailedHTMLProps<
@@ -12,11 +12,9 @@ type InputProps = React.DetailedHTMLProps<
 
 // eslint-disable-next-line react/display-name
 const Input = React.forwardRef<HTMLInputElement, InputProps>((props, ref) => {
-  const { showPassword, setShowPassword, shouldShowButton } =
+  const { showPassword, handleVisibility, shouldShowButton } =
     props as ExtraProps;
-  const handleVisibility = () => {
-    setShowPassword && setShowPassword(!showPassword);
-  };
+
   return (
     <div className="mb-3">
       <label

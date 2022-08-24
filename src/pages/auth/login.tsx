@@ -299,7 +299,7 @@ const Login = () => {
           </div>
           <div className="md:w-8/12 lg:w-5/12 lg:ml-20">
             <Form<FormLogin> title="Bienvenido" onSubmit={onSubmit}>
-              {({ register, formState: { errors } }) => (
+              {({ register, watch, formState: { errors } }) => (
                 <>
                   <p className="text-center text-gray-500  mt-2 mb-6">
                     No tienes una cuenta?
@@ -325,9 +325,14 @@ const Login = () => {
                   />
                   <Input
                     title="Contraseña"
-                    type="password"
+                    type={`${showPassword ? "text" : "password"}`}
                     id="password"
                     placeholder="Contraseña"
+                    role="password"
+                    showPassword={showPassword}
+                    setShowPassword={setShowPassword}
+                    shouldShowButton={watch("password") ? true : false}
+                    // about="La contraseña debe tener al menos 8 caracteres"
                     aria-errormessage={
                       errors.password
                         ? "El formato de contraseña no es valido"

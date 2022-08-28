@@ -1,12 +1,12 @@
 import { useState } from "react";
 
 function useShowPassword() {
-  const [showPassword, setShowPassword] = useState(false);
+  const [showpassword, setShowPassword] = useState(false);
 
-  const handleVisibility = () => {
-    setShowPassword(!showPassword);
+  const handlevisibility = () => {
+    setShowPassword(!showpassword);
   };
-  return { showPassword, handleVisibility };
+  return { showpassword, handlevisibility };
 }
 
 export { useShowPassword };

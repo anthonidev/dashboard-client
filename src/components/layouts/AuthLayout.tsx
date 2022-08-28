@@ -15,7 +15,9 @@ const AuthLayout: React.FC<PropsLayout> = ({
         <title>{title}</title>
         <meta name="description" content={content} />
       </Head>
-      <main className="">{children}</main>
+      <main className="bg-gray-900 h-screen">
+        <div className="container px-6  h-full">{children}</div>
+      </main>
       <ToastContainer autoClose={4000} />
     </>
   );

@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement, useState, useEffect } from "react";
 import AuthLayout from "../../components/layouts/AuthLayout";
 
 import { SubmitHandler } from "react-hook-form";
@@ -8,6 +8,10 @@ import Link from "next/link";
 import Submit from "../../components/button/Submit";
 
 import ShowPassword from "../../components/forms/ShowPassword";
+import { AppDispatch, RootState } from "../../redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { loginService } from "../../redux/api/auth";
+import { useRouter } from "next/router";
 
 export interface FormLogin {
   email: string;
@@ -17,9 +21,21 @@ export interface FormLogin {
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
 
+  const { loading, isAuthenticated } = useSelector(
+    (state: RootState) => state.auth
+  );
+
+  const dispatch: AppDispatch = useDispatch();
   const onSubmit: SubmitHandler<FormLogin> = (data) => {
-    console.log(data);
+    dispatch(loginService(data.email, data.password));
   };
+  const { push } = useRouter();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      push("/dashboard/");
+    }
+  }, [isAuthenticated, push]);
 
   return (
     <section className="flex justify-center items-center  flex-wrap h-full g-6 text-gray-800">
@@ -87,7 +103,7 @@ const Login = () => {
                   ¿Olvidaste tu contraseña?
                 </a>
               </div>
-              <Submit loading={false}>Ingresar</Submit>
+              <Submit loading={loading}>Ingresar</Submit>
             </>
           )}
         </Form>

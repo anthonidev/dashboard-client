@@ -4,6 +4,7 @@ import type { AppProps } from "next/app";
 import "../styles/globals.css";
 import { Provider } from "react-redux";
 import { store } from "../redux/store";
+import { ToastContainer } from "react-toastify";
 
 export type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -17,6 +18,9 @@ type AppPropsWithLayout = AppProps & {
 export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page);
   return (
-    <Provider store={store}>{getLayout(<Component {...pageProps} />)}</Provider>
+    <Provider store={store}>
+      {getLayout(<Component {...pageProps} />)}
+      <ToastContainer autoClose={4000} />
+    </Provider>
   );
 }

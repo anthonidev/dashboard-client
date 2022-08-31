@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement, useState, useEffect } from "react";
 import AuthLayout from "../../components/layouts/AuthLayout";
 
 import { SubmitHandler } from "react-hook-form";
@@ -7,6 +7,10 @@ import Input from "../../components/forms/Input";
 import Link from "next/link";
 import Submit from "../../components/button/Submit";
 import ShowPassword from "../../components/forms/ShowPassword";
+import { signupService } from "../../redux/api/auth";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../redux/store";
+import { useRouter } from "next/router";
 
 export interface FormSignup {
   email: string;
@@ -15,19 +19,29 @@ export interface FormSignup {
   acept_terms: boolean;
 }
 
+//asdasd@gmail.com PassSegure3$
+
 const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showRePassword, setReShowPassword] = useState(false);
+  const dispatch: AppDispatch = useDispatch();
+  const { loading } = useSelector((state: RootState) => state.auth);
+  const { redirect } = useSelector((state: RootState) => state.auth.message);
+  const { push } = useRouter();
 
   const onSubmit: SubmitHandler<FormSignup> = (data) => {
-    if (data.password !== data.re_password) {
-      return;
-    } else if (data.acept_terms === false) {
-      return;
-    } else {
-      console.log(data);
-    }
+    dispatch(
+      signupService(
+        data.email,
+        data.password,
+        data.re_password,
+        data.acept_terms
+      )
+    );
   };
+  useEffect(() => {
+    if (redirect) push("/auth/message");
+  }, [push, redirect]);
 
   return (
     <section className="flex justify-center items-center  flex-wrap h-full g-6 text-gray-800">
@@ -64,7 +78,6 @@ const Signup = () => {
                   type={`${showPassword ? "text" : "password"}`}
                   id="password"
                   placeholder="Contraseña"
-                  // about="La contraseña debe tener al menos 8 caracteres"
                   aria-errormessage={
                     errors.password
                       ? "El formato de contraseña no es valido"
@@ -90,7 +103,6 @@ const Signup = () => {
                   type={`${showRePassword ? "text" : "password"}`}
                   id="re_password"
                   placeholder="Repetir contraseña"
-                  // about="La contraseña debe tener al menos 8 caracteres"
                   aria-errormessage={
                     errors.password
                       ? "El formato de contraseña no es valido"
@@ -129,7 +141,7 @@ const Signup = () => {
                   </Link>
                 </p>
               </div>
-              <Submit loading={false}>Registrarce</Submit>
+              <Submit loading={loading}>Registrarce</Submit>
             </>
           )}
         </Form>

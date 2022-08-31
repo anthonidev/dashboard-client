@@ -27,12 +27,16 @@ yarn-error.log*
 
 # local env files
 .env*.local
-
+next-env.d.ts
 # vercel
 .vercel
 
-# typescript
-*.tsbuildinfo
-next-env.d.ts
+/__mocks__
+/__test__
+/.babelrc
 
-.env
+/.eslintrc.js
+/jest.config.js
+/jest.setup.js
+/postcss.config.js
+/tailwind.config.js

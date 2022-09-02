@@ -96,12 +96,11 @@ const Login = () => {
               </div>
 
               <div className="flex justify-end items-center mb-6">
-                <a
-                  href="#!"
-                  className="text-blue-600 hover:text-blue-700 focus:text-blue-700 active:text-blue-800 duration-200 transition ease-in-out"
-                >
-                  ¿Olvidaste tu contraseña?
-                </a>
+                <Link href={"/auth/reset/"}>
+                  <a className="text-blue-600 hover:text-blue-700 focus:text-blue-700 active:text-blue-800 duration-200 transition ease-in-out">
+                    ¿Olvidaste tu contraseña?
+                  </a>
+                </Link>
               </div>
               <Submit loading={loading}>Ingresar</Submit>
             </>

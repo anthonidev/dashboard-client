@@ -234,8 +234,6 @@ const logoutService = () => (dispatch: AppDispatch) => {
 };
 const resetPasswordService =
   (email: string) => async (dispatch: AppDispatch) => {
-    console.log(email);
-
     dispatch(loadingOn());
     await axios
       .post(
@@ -249,18 +247,14 @@ const resetPasswordService =
       )
       .then((res) => {
         dispatch(
-          redirectConfirm({
-            state: true,
-            msg: "Se ha enviado un correo para cambiar tu contraseña , por favor revise su bandeja de entrada.",
-          })
+          messageService(
+            "Se ha enviado un correo para cambiar tu contraseña , por favor revise su bandeja de entrada."
+          )
         );
-
-        dispatch(setAlert("Se ha enviado un correo", AlertType.Info));
+        toast.info("Revisa tu bandeja de entrada");
       })
       .catch((err) => {
-        dispatch(
-          setAlert("Error de conexión, intentar más tarde", AlertType.Error)
-        );
+        toast.error("Error de conexión, intentar más tarde");
       });
     dispatch(loadingOff());
   };
@@ -281,8 +275,9 @@ const resetPasswordConfirmService =
     re_new_password: string
   ) =>
   async (dispatch: AppDispatch) => {
-    dispatch(loadingOn());
+    console.log(uid, token, new_password, re_new_password);
 
+    dispatch(loadingOn());
     // eslint-disable-next-line camelcase
     if (new_password === re_new_password) {
       await axios
@@ -299,18 +294,18 @@ const resetPasswordConfirmService =
           { headers: { "Content-Type": "application/json" } }
         )
         .then((res) => {
-          dispatch(redirecLoginService());
           dispatch(
-            setAlert("Contraseña cambiada correctamente", AlertType.Info)
+            messageService(
+              "Contraseña cambiada, ya puedes iniciar sesión con tu nueva contraseña"
+            )
           );
+          toast.success("Contraseña cambiada, ya puedes iniciar sesión");
         })
         .catch((err) => {
-          dispatch(
-            setAlert("Comuniquese con el administrador  ", AlertType.Error)
-          );
+          toast.error("Comuniquese con el administrador");
         });
     } else {
-      dispatch(setAlert("Las Contrase;as no coinciden  ", AlertType.Error));
+      toast.warn("Las Contraseñas no coinciden  ");
     }
     dispatch(loadingOff());
   };

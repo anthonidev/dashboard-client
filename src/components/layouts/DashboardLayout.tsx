@@ -20,7 +20,9 @@ const DasboardLayout: React.FC<PropsLayoutDashboard> = ({
   children,
 }: PropsLayoutDashboard) => {
   const { push } = useRouter();
-  const { isAuthenticated } = useSelector((state: RootState) => state.auth);
+  const { isAuthenticated, user: is_configured } = useSelector(
+    (state: RootState) => state.auth
+  );
   const dispatch: AppDispatch = useDispatch();
   useEffect(() => {
     dispatch(checkAuthenticatedService());
@@ -33,6 +35,11 @@ const DasboardLayout: React.FC<PropsLayoutDashboard> = ({
       push("/auth/login");
     }
   }, [isAuthenticated, push]);
+  useEffect(() => {
+    if (!is_configured) {
+      push("/dashboard/initial-config");
+    }
+  }, [is_configured]);
 
   return (
     <>
@@ -40,14 +47,18 @@ const DasboardLayout: React.FC<PropsLayoutDashboard> = ({
         <title>{title}</title>
         <meta name="description" content={content} />
       </Head>
-      <main className="bg-slate-900 h-screen">
-        <OpenSidebar />
-        <Sidebar />
-        <div className="md:pl-64 flex flex-col flex-1">
-          <NavbarDashboard />
-          {children}
-        </div>
-      </main>
+      {!is_configured ? (
+        <main className="bg-slate-900 h-screen">
+          <OpenSidebar />
+          <Sidebar />
+          <div className="md:pl-64 flex flex-col flex-1">
+            <NavbarDashboard />
+            {children}
+          </div>
+        </main>
+      ) : (
+        <main className="bg-slate-900 h-screen">{children}</main>
+      )}
     </>
   );
 };

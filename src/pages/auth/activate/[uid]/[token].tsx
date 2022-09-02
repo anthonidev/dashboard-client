@@ -1,26 +1,20 @@
 import { useRouter } from "next/router";
-import React, { ReactElement, useEffect, useState } from "react";
+import React, { ReactElement, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { CheckCircleIcon } from "@heroicons/react/solid";
 import { AppDispatch, RootState } from "../../../../redux/store";
 import AuthLayout from "../../../../components/layouts/AuthLayout";
 import { activateService } from "../../../../redux/api/auth";
 import { ClipLoader } from "react-spinners";
-// import { activateService } from "../../../../redux/api/auth";
-// import MainLayout from "../../../../components/layouts/MainLayout";
 
 const Token = () => {
-  const [activated, setActivated] = useState(false);
   const { loading } = useSelector((state: RootState) => state.auth);
-  const { msg, redirect } = useSelector(
-    (state: RootState) => state.auth?.message
-  );
+  const { redirect } = useSelector((state: RootState) => state.auth?.message);
   const { push } = useRouter();
 
   const router = useRouter();
   const dispatch: AppDispatch = useDispatch();
   const { uid, token } = router.query;
-  console.log(uid, token);
   useEffect(() => {
     if (redirect) push("/auth/login");
   }, [push, redirect]);
@@ -28,10 +22,7 @@ const Token = () => {
   const handleActivated = () => {
     if (uid !== undefined && token !== undefined)
       dispatch(activateService(uid, token));
-    setActivated(true);
   };
-
-  // if (activated && !loading) router.push("/auth/login");
 
   return (
     <section className="flex justify-center items-center  flex-wrap h-full g-6 text-gray-800">

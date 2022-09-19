@@ -17,7 +17,6 @@
     "sourceMap": true,
     "pretty": true,
     "declaration": true,
-
     "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": true,
     "allowUnusedLabels": false,

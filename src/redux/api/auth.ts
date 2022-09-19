@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-vars */
 import axios from "axios";
-import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 import { getStoreLocal } from "../../utils/helpers/helpStore";
 import { Message } from "../../utils/types/reduxInterface";
@@ -20,15 +19,6 @@ import {
   offMessage,
 } from "../slices/authSlice";
 import { AppDispatch } from "../store";
-import { setAlert } from "./alert";
-
-enum AlertType {
-  Success = "success",
-  Error = "failure",
-  Warning = "warning",
-  Info = "info",
-  Gray = "gray",
-}
 
 const messageService =
   (msg: string, redirect = true, timeout = 60000) =>

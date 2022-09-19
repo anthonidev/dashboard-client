@@ -20,7 +20,7 @@ const DasboardLayout: React.FC<PropsLayoutDashboard> = ({
   children,
 }: PropsLayoutDashboard) => {
   const { push } = useRouter();
-  const { isAuthenticated, user: is_configured } = useSelector(
+  const { isAuthenticated, user } = useSelector(
     (state: RootState) => state.auth
   );
   const dispatch: AppDispatch = useDispatch();
@@ -36,10 +36,10 @@ const DasboardLayout: React.FC<PropsLayoutDashboard> = ({
     }
   }, [isAuthenticated, push]);
   useEffect(() => {
-    if (!is_configured) {
+    if (!user?.is_configured) {
       push("/dashboard/initial-config");
     }
-  }, [is_configured]);
+  }, [user]);
 
   return (
     <>
@@ -47,7 +47,7 @@ const DasboardLayout: React.FC<PropsLayoutDashboard> = ({
         <title>{title}</title>
         <meta name="description" content={content} />
       </Head>
-      {!is_configured ? (
+      {user?.is_configured ? (
         <main className="bg-slate-900 h-screen">
           <OpenSidebar />
           <Sidebar />

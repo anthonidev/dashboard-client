@@ -1,10 +1,9 @@
 import Head from "next/head";
 import Image from "next/image";
 import { PropsLayout } from "../../utils/types/pageProps";
-import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useEffect } from "react";
-import { AppDispatch, RootState } from "../../redux/store";
+import { AppDispatch } from "../../redux/store";
 import { useDispatch } from "react-redux";
 import {
   checkAuthenticatedService,
@@ -21,11 +20,11 @@ const AuthLayout: React.FC<PropsLayout> = ({
   banner,
 }: PropsLayout) => {
   const dispatch: AppDispatch = useDispatch();
-  // useEffect(() => {
-  //   dispatch(checkAuthenticatedService());
-  //   dispatch(loadUserService());
-  //   dispatch(refreshService());
-  // }, [dispatch]);
+  useEffect(() => {
+    dispatch(checkAuthenticatedService());
+    dispatch(loadUserService());
+    dispatch(refreshService());
+  }, [dispatch]);
 
   return (
     <>

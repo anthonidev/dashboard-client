@@ -1,120 +1,129 @@
 import React, { ReactElement } from "react";
+import { SubmitHandler } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import Submit from "../../components/button/Submit";
+import Form from "../../components/forms/Form";
+import Input from "../../components/forms/Input";
 import DasboardLayout from "../../components/layouts/DashboardLayout";
+import { configInitialService } from "../../redux/api/company";
+import { AppDispatch, RootState } from "../../redux/store";
+export interface FormConfig {
+  firstname: string;
+  lastname: string;
+  phone: string;
+  dni: string;
+  enterprice: string;
+  ruc: string;
+}
 
 const InitialConfig = () => {
+  const dispatch: AppDispatch = useDispatch();
+  const onSubmit: SubmitHandler<FormConfig> = (data) => {
+    dispatch(
+      configInitialService(
+        data.firstname,
+        data.lastname,
+        data.phone,
+        data.dni,
+        data.enterprice,
+        data.ruc
+      )
+    );
+  };
+  const { loading } = useSelector((state: RootState) => state.comapany);
   return (
-    <div className="mx-auto max-w-7xl bg-white shadow-md rounded px-8  pb-8 mb-4 flex flex-col">
-      <h1 className="my-6 ">Configuracion Inicial</h1>
-      <div className="-mx-3 md:flex mb-6">
-        <div className="md:w-1/2 px-3 mb-6 md:mb-0">
-          <label
-            className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
-            htmlFor="grid-first-name"
-          >
-            First Name
-          </label>
-          <input
-            className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3"
-            id="grid-first-name"
-            type="text"
-            placeholder="Jane"
-          />
-          <p className="text-red text-xs italic">Please fill out this field.</p>
-        </div>
-        <div className="md:w-1/2 px-3">
-          <label
-            className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
-            htmlFor="grid-last-name"
-          >
-            Last Name
-          </label>
-          <input
-            className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4"
-            id="grid-last-name"
-            type="text"
-            placeholder="Doe"
-          />
-        </div>
+    <section className="flex justify-center items-center  flex-wrap h-full g-6 text-gray-800">
+      <div className="md:w-8/12 lg:w-6/12 md:mb-0"></div>
+      <div className="md:w-8/12 lg:w-5/12 lg:ml-20">
+        <Form<FormConfig> title="Configuracion Inicial" onSubmit={onSubmit}>
+          {({ register, watch, formState: { errors } }) => (
+            <>
+              <p className="text-center text-gray-500 text-xs md:text-md lg:text-lg mt-2 mb-6">
+                Esta configuracion es necesaria para poder usar el sistema
+              </p>
+              <Input
+                title="Nombres"
+                type="text"
+                id="firstname"
+                placeholder="ej. Juan"
+                aria-errormessage={
+                  errors.firstname ? "Formato no valido" : undefined
+                }
+                {...register("firstname", {
+                  required: true,
+                  maxLength: 30,
+                })}
+              />
+              <Input
+                title="Apellidos"
+                type="text"
+                id="lastname"
+                placeholder="ej. Perez"
+                aria-errormessage={
+                  errors.lastname ? "Formato no valido" : undefined
+                }
+                {...register("lastname", {
+                  required: true,
+                  maxLength: 50,
+                })}
+              />
+              <Input
+                title="Telefono"
+                type="text"
+                id="phone"
+                placeholder="ej. 999999999"
+                aria-errormessage={
+                  errors.phone ? "Formato no valido" : undefined
+                }
+                {...register("phone", {
+                  required: true,
+                  maxLength: 9,
+                })}
+              />
+              <Input
+                title="DNI"
+                type="text"
+                id="dni"
+                placeholder="ej. 99999999"
+                aria-errormessage={errors.dni ? "Formato no valido" : undefined}
+                {...register("dni", {
+                  required: true,
+                  maxLength: 8,
+                })}
+              />
+              <Input
+                title="Razon Social"
+                type="text"
+                id="enterprice"
+                placeholder="ej. Empresa S.A.C"
+                aria-errormessage={
+                  errors.enterprice ? "Formato no valido" : undefined
+                }
+                {...register("enterprice", {
+                  required: true,
+                  maxLength: 50,
+                })}
+              />
+              <Input
+                title="RUC"
+                type="text"
+                id="ruc"
+                placeholder="ej. 99999999999"
+                aria-errormessage={errors.ruc ? "Formato no valido" : undefined}
+                {...register("ruc", {
+                  required: true,
+                  maxLength: 11,
+                })}
+              />
+              <Submit loading={loading}>Guardar</Submit>
+            </>
+          )}
+        </Form>
       </div>
-      <div className="-mx-3 md:flex mb-6">
-        <div className="md:w-full px-3">
-          <label
-            className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
-            htmlFor="grid-password"
-          >
-            Password
-          </label>
-          <input
-            className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 mb-3"
-            id="grid-password"
-            type="password"
-            placeholder="******************"
-          />
-          <p className="text-grey-dark text-xs italic">
-            Make it as long and as crazy as you'd like
-          </p>
-        </div>
-      </div>
-      <div className="-mx-3 md:flex mb-2">
-        <div className="md:w-1/2 px-3 mb-6 md:mb-0">
-          <label
-            className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
-            htmlFor="grid-city"
-          >
-            City
-          </label>
-          <input
-            className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4"
-            id="grid-city"
-            type="text"
-            placeholder="Albuquerque"
-          />
-        </div>
-        <div className="md:w-1/2 px-3">
-          <label
-            className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
-            htmlFor="grid-state"
-          >
-            State
-          </label>
-          <div className="relative">
-            <select
-              className="block appearance-none w-full bg-grey-lighter border border-grey-lighter text-grey-darker py-3 px-4 pr-8 rounded"
-              id="grid-state"
-            >
-              <option>New Mexico</option>
-              <option>Missouri</option>
-              <option>Texas</option>
-            </select>
-            <div className="pointer-events-none absolute pin-y pin-r flex items-center px-2 text-grey-darker">
-              <svg
-                className="h-4 w-4"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-              >
-                <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-              </svg>
-            </div>
-          </div>
-        </div>
-        <div className="md:w-1/2 px-3">
-          <label
-            className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
-            htmlFor="grid-zip"
-          >
-            Zip
-          </label>
-          <input
-            className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4"
-            id="grid-zip"
-            type="text"
-            placeholder="90210"
-          />
-        </div>
-      </div>
-    </div>
+    </section>
   );
 };
+
 InitialConfig.getLayout = function getLayout(page: ReactElement) {
   return (
     <DasboardLayout title="Dashboard | Belnmont" content="Content Page">

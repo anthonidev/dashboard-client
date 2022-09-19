@@ -1,8 +1,8 @@
-export interface AlertState {
+interface AlertState {
   msg: string | null;
   type: string | null;
 }
-export interface AuthState {
+interface AuthState {
   access: string | null;
   refresh: string | null;
   isAuthenticated: boolean | null;
@@ -13,25 +13,41 @@ export interface AuthState {
   message: Message;
 }
 
-export interface Message {
+interface Message {
   msg: string;
   redirect: boolean;
 }
 
-export interface User {
+interface User {
   id: number;
   email: string;
+  is_configured: boolean;
 }
-export interface Redirect {
+interface Redirect {
   login: boolean;
   confirm: Confirm;
 }
 
-export interface Confirm {
+interface Confirm {
   state: boolean;
   msg: string;
 }
 
-export interface EventState {
+interface EventState {
   sidebarOpen: boolean;
 }
+
+interface CompanyState {
+  loading: boolean;
+}
+
+export {
+  AlertState,
+  AuthState,
+  Message,
+  User,
+  Redirect,
+  Confirm,
+  EventState,
+  CompanyState,
+};

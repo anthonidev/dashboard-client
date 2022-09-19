@@ -1,0 +1,12 @@
+configuracion del perfil {
+    campos{
+        -nombre
+        -apellido
+        -telefono
+        -direccion
+        
+        -empresa
+        -ruc
+
+    }
+}

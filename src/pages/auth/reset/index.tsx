@@ -1,22 +1,29 @@
-import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { ReactElement, useEffect } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { SubmitHandler } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import Submit from "../../../components/button/Submit";
 import Form from "../../../components/forms/Form";
 import Input from "../../../components/forms/Input";
 import AuthLayout from "../../../components/layouts/AuthLayout";
-
+import { resetPasswordService } from "../../../redux/api/auth";
 import { AppDispatch, RootState } from "../../../redux/store";
 
 export interface FormForgotPassword {
   email: string;
 }
 const ForgotPassword = () => {
+  const dispatch: AppDispatch = useDispatch();
+  const { loading } = useSelector((state: RootState) => state.auth);
+  const { redirect } = useSelector((state: RootState) => state.auth.message);
+  const { push } = useRouter();
+
   const onSubmit: SubmitHandler<FormForgotPassword> = (data) => {
-    console.log(data);
+    dispatch(resetPasswordService(data.email));
   };
+  useEffect(() => {
+    if (redirect) push("/auth/message");
+  }, [push, redirect]);
 
   return (
     <section className="flex justify-center items-center  flex-wrap h-full g-6 text-gray-800">
@@ -48,7 +55,7 @@ const ForgotPassword = () => {
                 })}
               />
 
-              <Submit loading={false}>Enviar correo</Submit>
+              <Submit loading={loading}>Enviar correo</Submit>
             </>
           )}
         </Form>

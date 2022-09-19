@@ -18,6 +18,7 @@ const initialState: AuthState = {
   user: {
     id: 0,
     email: "",
+    is_configured: false,
   },
   loading: false,
   redirectConfirmed: false,
@@ -115,7 +116,6 @@ export const {
   redirectConfirmed,
   redirectConfirm,
   redirectLogin,
-
   onMessage,
   offMessage,
 } = authSlice.actions;

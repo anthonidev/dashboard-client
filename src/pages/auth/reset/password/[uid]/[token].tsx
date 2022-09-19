@@ -1,13 +1,13 @@
-import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { ReactElement, useEffect, useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { SubmitHandler } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import Submit from "../../../../../components/button/Submit";
 import Form from "../../../../../components/forms/Form";
 import Input from "../../../../../components/forms/Input";
 import ShowPassword from "../../../../../components/forms/ShowPassword";
 import AuthLayout from "../../../../../components/layouts/AuthLayout";
+import { resetPasswordConfirmService } from "../../../../../redux/api/auth";
 
 import { AppDispatch, RootState } from "../../../../../redux/store";
 
@@ -16,18 +16,34 @@ export interface FormResetPassword {
   re_new_password: string;
 }
 const ResetPassword = () => {
+  const dispatch: AppDispatch = useDispatch();
+
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const { loading } = useSelector((state: RootState) => state.auth);
+  const { redirect } = useSelector((state: RootState) => state.auth?.message);
 
   const {
     query: { uid, token },
+    push,
   } = useRouter();
+
   const onSubmit: SubmitHandler<FormResetPassword> = (data) => {
-    console.log(data);
     if (uid !== undefined && token !== undefined) {
-      console.log(uid, token);
+      dispatch(
+        resetPasswordConfirmService(
+          uid,
+          token,
+          data.new_password,
+          data.re_new_password
+        )
+      );
     }
   };
+  useEffect(() => {
+    if (redirect) push("/auth/login");
+  }, [push, redirect]);
+
   return (
     <section className="flex justify-center items-center  flex-wrap h-full g-6 text-gray-800">
       <div className="md:w-8/12 lg:w-6/12 md:mb-0"></div>
@@ -97,7 +113,7 @@ const ResetPassword = () => {
                   />
                 }
               </div>
-              <Submit loading={false}>Restablecer contraseña</Submit>
+              <Submit loading={loading}>Restablecer contraseña</Submit>
             </>
           )}
         </Form>

@@ -6,7 +6,6 @@ type Props = {
   children: React.ReactNode;
   loading?: boolean;
 };
-
 const Submit = ({ children, loading }: Props) => {
   return (
     <>

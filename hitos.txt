@@ -4,7 +4,7 @@ configuracion del perfil {
         -apellido
         -telefono
         -direccion
-        
+
         -empresa
         -ruc
 

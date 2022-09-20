@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 import { getStoreLocal } from "../../utils/helpers/helpStore";
 import { setLoading } from "../slices/companySlice";
 import { AppDispatch } from "../store";
+import { loadUserService } from "./auth";
 
 const configInitialService =
   (
@@ -36,11 +37,10 @@ const configInitialService =
           }
         )
         .then((res) => {
-          console.log("🚀 ~ file: company.ts ~ line 39 ~ .then ~ res", res);
           toast.success(res.data.ok);
+          dispatch(loadUserService());
         })
         .catch((err) => {
-          console.log("🚀 ~ file: company.ts ~ line 43 ~ .catch ~ err", err);
           toast.error(err.response.data.error);
         })
         .finally(() => {

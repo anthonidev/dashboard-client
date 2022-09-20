@@ -3,8 +3,9 @@ import { Menu, Transition } from "@headlessui/react";
 import { AppDispatch } from "../../redux/store";
 import { useDispatch } from "react-redux";
 import { logoutService } from "../../redux/api/auth";
+import Link from "next/link";
 const userNavigation = [
-  { name: "Your Profile", href: "#" },
+  { name: "Mi informacion", href: "/dashboard/info-profile" },
   { name: "Settings", href: "#" },
   { name: "Sign out", href: "#" },
 ];
@@ -46,15 +47,18 @@ const ProfileDrop = () => {
           {userNavigation.map((item) => (
             <Menu.Item key={item.name}>
               {({ active }) => (
-                <a
-                  href={item.href}
-                  className={classNames(
-                    active ? "bg-gray-100" : "",
-                    "block px-4 py-2 text-sm text-gray-700"
-                  )}
-                >
-                  {item.name}
-                </a>
+                <Menu.Button>
+                  <Link href={item.href}>
+                    <a
+                      className={classNames(
+                        active ? "bg-gray-100" : "",
+                        "block px-4 py-2 text-sm text-gray-700"
+                      )}
+                    >
+                      {item.name}
+                    </a>
+                  </Link>
+                </Menu.Button>
               )}
             </Menu.Item>
           ))}

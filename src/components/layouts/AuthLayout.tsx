@@ -1,5 +1,4 @@
 import Head from "next/head";
-import Image from "next/image";
 import { PropsLayout } from "../../utils/types/pageProps";
 import "react-toastify/dist/ReactToastify.css";
 import { useEffect } from "react";

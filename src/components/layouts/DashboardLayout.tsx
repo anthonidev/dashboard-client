@@ -36,8 +36,12 @@ const DasboardLayout: React.FC<PropsLayoutDashboard> = ({
     }
   }, [isAuthenticated, push]);
   useEffect(() => {
-    if (!user?.is_configured) {
-      push("/dashboard/initial-config");
+    if (user !== null) {
+      if (!user?.is_configured) {
+        push("/dashboard/initial-config");
+      } else {
+        push("/dashboard");
+      }
     }
   }, [user]);
 
@@ -48,7 +52,7 @@ const DasboardLayout: React.FC<PropsLayoutDashboard> = ({
         <meta name="description" content={content} />
       </Head>
       {user?.is_configured ? (
-        <main className="bg-slate-900 h-screen">
+        <main className="bg-gray-100 ">
           <OpenSidebar />
           <Sidebar />
           <div className="md:pl-64 flex flex-col flex-1">
@@ -57,7 +61,7 @@ const DasboardLayout: React.FC<PropsLayoutDashboard> = ({
           </div>
         </main>
       ) : (
-        <main className="bg-slate-900 h-screen">{children}</main>
+        <main className="bg-gray-100 h-screen">{children}</main>
       )}
     </>
   );

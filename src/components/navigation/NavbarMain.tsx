@@ -21,8 +21,6 @@ import {
 } from "@heroicons/react/outline";
 import { ChevronDownIcon } from "@heroicons/react/solid";
 import Link from "next/link";
-import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
 
 const solutions = [
   {
@@ -98,10 +96,6 @@ import React from "react";
 import LinksHomeAuth from "./LinksHomeAuth";
 
 const NavbarMain = () => {
-  const isAuthenticaded = useSelector(
-    (state: RootState) => state.auth.isAuthenticated
-  );
-
   return (
     <>
       <Popover className="relative bg-white">

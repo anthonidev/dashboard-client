@@ -17,7 +17,7 @@ const Token = () => {
   const { uid, token } = router.query;
   useEffect(() => {
     if (redirect) push("/auth/login");
-  }, [push, redirect]);
+  }, [redirect]);
 
   const handleActivated = () => {
     if (uid !== undefined && token !== undefined)
